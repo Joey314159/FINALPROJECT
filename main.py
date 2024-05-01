@@ -172,9 +172,7 @@ def compare(conditionalStatement):
                     return int(leftHand) == int(rightHand)
 
     
-sampleProgram = """♒ 😈=30
-👌 😈<15: ✍️ '🐝'
-👈 ✍️ '😈'
+sampleProgram = """✍️ '👋🌎'
 """
 
 executeProgram(sampleProgram)
