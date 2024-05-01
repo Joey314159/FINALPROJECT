@@ -11,7 +11,6 @@ def varmap(targetVar, state):#varmap function takes in 2 arguments, the variable
 def executeProgram(program):#Takes in our program
     linesInProgram = program.splitlines()#Need to know how many lines are in my program
     linesInProgram = list(linesInProgram)
-    endOfLoop = 0
     for linenum, line in enumerate(linesInProgram):#Splitting our program into separate lines, which are operations
 
         instruction, expression = line.split(maxsplit=1)#Splitting the operations/lines into 2 parts, instruction and expression
@@ -42,22 +41,25 @@ def executeProgram(program):#Takes in our program
                 print("Comparison not available")
         elif instruction == "👉:":#FOR-LOOP
             try:
-                #expression = expression.replace(":","")#We remove the ":" for an empty space
                 endOfFor = 0
                 var, myRange = expression.split("=")# Splitting the expression up in pieces
-                start_val, stop_val = myRange.split(",")# 
-                state[var] = start_val
+                start_val, stop_val = myRange.split(",")#Holds teh range of the for-loop
+                state[var] = start_val#Setting our variable with our starting value
                 for i in range(linenum+1, len(linesInProgram)):
                     scanLine = linesInProgram[i]
-                    stop_line = 0
                     if "⏭️" in scanLine:#NEXT
-                        stop_line = i#Holds the end of the body
-                        endOfFor = i
+                        endOfFor = i#Holds the first occurence of the end of the body
+                        break
                 for x in range(int(start_val), int(stop_val)+1):
                     state[var] = x
-                    for_body = linesInProgram[linenum+1:endOfFor]
-                    newProgram = "".join(for_body)
-                    executeProgram(newProgram)
+                    for_body = linesInProgram[linenum+1:endOfFor]#This holds your for-loop body as an array
+                    newProgram = ";".join(for_body)#newProgram joins all of your loop body in a string
+                                                   #This is needed since our executeProgram takes in a string
+                    if(len(for_body) > 1):
+                        print(len(for_body))
+                    else:
+                        newProgram = newProgram.replace(";","")#We remove the ";" for an empty space
+                        executeProgram(newProgram)
             except:
                 print("Error! Instruction not found")
         elif instruction == "⏭️":
@@ -170,12 +172,14 @@ def compare(conditionalStatement):
                     return int(leftHand) == int(rightHand)
 
     
-sampleProgram = """👉: 🐔=1,10
-✍️ 🐔
-⏭️ 🐔
-♒ 😪=90
+sampleProgram = """♒ 😪=90
 ♒ 🐣=20
+👉: 🐔=1,5
+✍️ 🐔
 🤓 🎈=😪-🐣 
+✍️ 😪
+✍️ 🐣
+⏭️ 🐔
 """
 
 executeProgram(sampleProgram)
