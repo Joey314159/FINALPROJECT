@@ -182,6 +182,8 @@ sampleProgram = """♒ 😪=90
 ✍️ 😪
 ✍️ 🐣
 ⏭️ 🐔
+♒ 💎=30
+✍️ 💎
 """
 
 executeProgram(sampleProgram)
