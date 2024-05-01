@@ -56,7 +56,9 @@ def executeProgram(program):#Takes in our program
                     newProgram = ";".join(for_body)#newProgram joins all of your loop body in a string
                                                    #This is needed since our executeProgram takes in a string
                     if(len(for_body) > 1):
-                        print(len(for_body))
+                        for statement in for_body:
+                            statement = statement.replace(";","")
+                            executeProgram(statement)
                     else:
                         newProgram = newProgram.replace(";","")#We remove the ";" for an empty space
                         executeProgram(newProgram)
