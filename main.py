@@ -11,6 +11,7 @@ def varmap(targetVar, state):#varmap function takes in 2 arguments, the variable
 def executeProgram(program):#Takes in our program
     linesInProgram = program.splitlines()#Need to know how many lines are in my program
     linesInProgram = list(linesInProgram)
+    endOfLoop = 0
     for linenum, line in enumerate(linesInProgram):#Splitting our program into separate lines, which are operations
 
         instruction, expression = line.split(maxsplit=1)#Splitting the operations/lines into 2 parts, instruction and expression
@@ -52,14 +53,11 @@ def executeProgram(program):#Takes in our program
                     if "⏭️" in scanLine:#NEXT
                         stop_line = i#Holds the end of the body
                         endOfFor = i
-                    for_body = linesInProgram[linenum+1:stop_line]
-                    for x in range(int(start_val), int(stop_val)+1):
-                        state[var] = x
-                        newProgram = "".join(for_body)
-                        executeProgram(newProgram)
-                
-                linenum = endOfFor
-                break
+                for x in range(int(start_val), int(stop_val)+1):
+                    state[var] = x
+                    for_body = linesInProgram[linenum+1:endOfFor]
+                    newProgram = "".join(for_body)
+                    executeProgram(newProgram)
             except:
                 print("Error! Instruction not found")
         elif instruction == "⏭️":
@@ -172,7 +170,12 @@ def compare(conditionalStatement):
                     return int(leftHand) == int(rightHand)
 
     
-sampleProgram = """✍️ '👋🌎'
+sampleProgram = """👉: 🐔=1,10
+✍️ 🐔
+⏭️ 🐔
+♒ 😪=90
+♒ 🐣=20
+🤓 🎈=😪-🐣 
 """
 
 executeProgram(sampleProgram)
